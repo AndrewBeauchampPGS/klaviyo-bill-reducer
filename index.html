@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaviyo Bill Reducer - Simple & Fast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-left: 10px;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-value.success {
+            color: #28a745;
+        }
+
+        .stat-value.danger {
+            color: #dc3545;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .help-text {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Reduce Your Klaviyo Bill By 20-30% In Minutes</h1>
+            <p>Identify inactive profiles and see how much you can save on your Klaviyo bill</p>
+        </header>
+
+        <div class="content">
+            <div class="setup">
+                <div class="input-group">
+                    <label for="apiKey">Klaviyo Private API Key</label>
+                    <input type="password" id="apiKey" placeholder="pk_xxxxxxxxxxxxxxxxxx">
+                    <div class="help-text">⚠️ Your API key is used securely and never stored. If you refresh this page, you'll need to enter it again. We do not store your API key anywhere - this is for your security.</div>
+                </div>
+
+                <div class="alert alert-warning" style="margin: 20px 0;">
+                    <strong>📋 Required API Scopes:</strong><br>
+                    <div style="margin-top: 10px; line-height: 1.8;">
+                        ✓ <strong>accounts:read</strong> - To get total profile count<br>
+                        ✓ <strong>metrics:read</strong> - To find email activity metrics<br>
+                        ✓ <strong>segments:full</strong> - To create and read analysis segments<br>
+                        ✓ <strong>profiles:read</strong> - To export member lists
+                    </div>
+                    <div style="margin-top: 10px; font-size: 14px;">
+                        <strong>How It Works:</strong> This tool creates a segment in Klaviyo to identify non-customers who:
+                        <br>• Have not opened any emails in X days
+                        <br>• Have not clicked any emails in X days
+                        <br>• Have never made a purchase
+                        <br>• Have received at least 5 emails (not new subscribers)
+                        <br>These profiles are safe to suppress. Export the list and manually suppress them in Klaviyo.
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="daysInactive">Days Inactive Threshold</label>
+                    <input type="number" id="daysInactive" value="90" min="30" max="365">
+                    <div class="help-text">Find non-customers who haven't opened or clicked emails in X days, never purchased, but have received at least 5 emails</div>
+                </div>
+
+                <button class="btn" onclick="analyzeProfiles()">Analyze Profiles</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing your Klaviyo profiles...</p>
+                <p style="font-size: 14px; color: #6c757d;">This may take a minute for large accounts</p>
+            </div>
+
+            <div class="results" id="results">
+                <div class="alert alert-success" id="savingsAlert"></div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Profiles</div>
+                        <div class="stat-value" id="totalProfiles">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Profiles</div>
+                        <div class="stat-value success" id="activeProfiles">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Inactive Profiles</div>
+                        <div class="stat-value danger" id="inactiveProfiles">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Monthly Savings</div>
+                        <div class="stat-value success" id="monthlySavings">-</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Next Steps:</strong>
+                    <ol style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Export the inactive profiles list below</li>
+                        <li>Review the CSV file to verify the profiles</li>
+                        <li>Go to Klaviyo → Profiles → Suppressions to remove them</li>
+                        <li>Or create a segment in Klaviyo and suppress in bulk</li>
+                    </ol>
+                </div>
+
+                <div class="actions">
+                    <button class="btn" onclick="exportProfiles()">📥 Export Inactive Profiles (CSV)</button>
+                    <button class="btn btn-secondary" onclick="location.reload()">🔄 Start New Analysis</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API endpoint - will be replaced with actual Amplify function URL
+        const API_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:3001'
+            : '/amplify/functions/api';
+
+        let currentAnalysis = null;
+
+        async function analyzeProfiles() {
+            const apiKey = document.getElementById('apiKey').value;
+            const daysInactive = document.getElementById('daysInactive').value;
+
+            if (!apiKey) {
+                alert('Please enter your Klaviyo API key');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('results').classList.remove('show');
+
+            try {
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify({
+                        daysInactive: parseInt(daysInactive)
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentAnalysis = data;
+
+                // Update UI with results
+                document.getElementById('totalProfiles').textContent = data.totalProfiles.toLocaleString();
+                document.getElementById('activeProfiles').textContent = data.activeProfiles.toLocaleString();
+                document.getElementById('inactiveProfiles').textContent = data.inactiveProfiles.toLocaleString();
+                document.getElementById('monthlySavings').textContent = `$${data.monthlySavings}`;
+
+                document.getElementById('savingsAlert').innerHTML = `
+                    <strong>🎉 Great news!</strong> You can save <strong>$${data.monthlySavings}/month</strong>
+                    ($${data.annualSavings}/year) by removing ${data.inactiveProfiles.toLocaleString()} inactive profiles.
+                    <br><br>
+                    <strong>📊 Segment Created:</strong> "${data.segmentName}" - You can view this in your Klaviyo account.
+                `;
+
+                document.getElementById('results').classList.add('show');
+            } catch (error) {
+                alert('Error analyzing profiles: ' + error.message);
+            } finally {
+                document.getElementById('loading').classList.remove('show');
+            }
+        }
+
+        async function exportProfiles() {
+            const apiKey = document.getElementById('apiKey').value;
+
+            if (!currentAnalysis) {
+                alert('Please analyze profiles first');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('show');
+            document.querySelector('#loading p').textContent = 'Exporting segment members...';
+
+            try {
+                const response = await fetch(`${API_URL}/export`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify({
+                        segmentId: currentAnalysis.segmentId
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `inactive-profiles-${Date.now()}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+
+                alert('✅ Export complete! Check your downloads folder.');
+            } catch (error) {
+                alert('Error exporting profiles: ' + error.message);
+            } finally {
+                document.getElementById('loading').classList.remove('show');
+                document.querySelector('#loading p').textContent = 'Analyzing your Klaviyo profiles...';
+            }
+        }
+
+    </script>
+</body>
+</html>

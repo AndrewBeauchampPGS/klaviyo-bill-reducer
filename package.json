@@ -1,0 +1,14 @@
+{
+  "name": "klaviyo-simple",
+  "version": "1.0.0",
+  "description": "Simple Klaviyo bill reducer tool",
+  "scripts": {
+    "start": "node test-server.js",
+    "deploy": "amplify push",
+    "install-lambda": "cd amplify/functions/api && npm install"
+  },
+  "devDependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5"
+  }
+}

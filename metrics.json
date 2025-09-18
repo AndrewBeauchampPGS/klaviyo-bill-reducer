@@ -1,0 +1,14 @@
+{
+    "errors": [
+        {
+            "id": "dd4293b9-c577-4e28-a3f6-e9981b43807d",
+            "status": 401,
+            "code": "not_authenticated",
+            "title": "Authentication credentials were not provided.",
+            "detail": "Missing or invalid private key.",
+            "source": {
+                "pointer": "/data/"
+            }
+        }
+    ]
+}
