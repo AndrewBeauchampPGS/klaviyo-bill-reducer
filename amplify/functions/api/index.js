@@ -122,7 +122,7 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type,X-Api-Key',
-        'Access-Control-Allow-Methods': 'POST,OPTIONS'
+        'Access-Control-Allow-Methods': 'POST,OPTIONS,GET'
     };
 
     // Handle CORS preflight
