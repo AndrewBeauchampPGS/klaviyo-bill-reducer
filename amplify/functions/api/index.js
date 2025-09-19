@@ -1,4 +1,76 @@
 const axios = require('axios');
+require('dotenv').config();
+
+// Slack webhook URL - should be stored in environment variable
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL || process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL || 'https://hooks.slack.com/services/YOUR/WEBHOOK/URL';
+
+// Function to send Slack notification
+async function sendSlackNotification(email, daysInactive, totalProfiles, inactiveProfiles, savings) {
+    if (!SLACK_WEBHOOK_URL || SLACK_WEBHOOK_URL.includes('YOUR/WEBHOOK/URL')) {
+        console.log('Slack webhook not configured, skipping notification');
+        return;
+    }
+
+    try {
+        const message = {
+            text: '🎯 Klaviyo Bill Reducer Used',
+            blocks: [
+                {
+                    type: 'header',
+                    text: {
+                        type: 'plain_text',
+                        text: '🎯 Klaviyo Bill Reducer Used',
+                        emoji: true
+                    }
+                },
+                {
+                    type: 'section',
+                    fields: [
+                        {
+                            type: 'mrkdwn',
+                            text: `*Email:*\n${email}`
+                        },
+                        {
+                            type: 'mrkdwn',
+                            text: `*Days Inactive:*\n${daysInactive}`
+                        },
+                        {
+                            type: 'mrkdwn',
+                            text: `*Total Profiles:*\n${totalProfiles.toLocaleString()}`
+                        },
+                        {
+                            type: 'mrkdwn',
+                            text: `*Inactive Found:*\n${inactiveProfiles.toLocaleString()}`
+                        },
+                        {
+                            type: 'mrkdwn',
+                            text: `*Monthly Savings:*\n$${savings.monthlySavings}`
+                        },
+                        {
+                            type: 'mrkdwn',
+                            text: `*Annual Savings:*\n$${savings.annualSavings}`
+                        }
+                    ]
+                },
+                {
+                    type: 'context',
+                    elements: [
+                        {
+                            type: 'mrkdwn',
+                            text: `Used at ${new Date().toISOString()}`
+                        }
+                    ]
+                }
+            ]
+        };
+
+        await axios.post(SLACK_WEBHOOK_URL, message);
+        console.log('Slack notification sent successfully');
+    } catch (error) {
+        console.error('Error sending Slack notification:', error.message);
+        // Don't fail the main request if Slack notification fails
+    }
+}
 
 // Klaviyo pricing tiers - Updated 2025
 // Note: These prices should be periodically verified at https://www.klaviyo.com/pricing
@@ -85,7 +157,16 @@ exports.handler = async (event) => {
         // Route handling
         if (path.endsWith('/analyze')) {
             // Analyze profiles using segments
-            const { daysInactive = 90, includeBounced = true, includeUnsubscribed = true } = body;
+            const { daysInactive = 90, includeBounced = true, includeUnsubscribed = true, email } = body;
+
+            // Email is required
+            if (!email) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Email address is required' })
+                };
+            }
 
             console.log('Starting segment-based analysis...');
 
@@ -350,6 +431,9 @@ exports.handler = async (event) => {
 
                 // Calculate savings
                 const savings = calculateSavings(totalProfiles, inactiveCount);
+
+                // Send Slack notification
+                await sendSlackNotification(email, daysInactive, totalProfiles, inactiveCount, savings);
 
                 return {
                     statusCode: 200,
