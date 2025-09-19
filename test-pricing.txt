@@ -1,0 +1,27 @@
+Based on manual testing of Klaviyo pricing URLs:
+
+Confirmed pricing (from user):
+- 27,001 contacts: $475/month
+- 30,001 contacts: $550/month
+
+Known pricing from research:
+- 0-250: Free
+- 251-500: $20/month
+- 501-1,000: $30/month
+- 1,001-2,500: $50/month (estimated)
+- 2,501-5,000: $75/month (estimated)
+- 5,001-10,000: $150/month
+- 10,001-15,000: $200/month (estimated)
+- 15,001-20,000: $275/month (estimated)
+- 20,001-25,000: $375-400/month
+- 25,001-30,000: $475/month (confirmed from 27,001)
+- 30,001-35,000: $550/month (confirmed from 30,001)
+- 35,001-40,000: $625/month (estimated)
+- 40,001-45,000: $700/month (estimated)
+- 45,001-50,000: $720/month
+- 50,001-60,000: $850/month (estimated)
+- 60,001-70,000: $975/month (estimated)
+- 70,001-85,000: $1,150/month (estimated)
+- 85,001-100,000: $1,400/month (estimated)
+- 100,001-125,000: $1,700/month (estimated)
+- 125,001-150,000: $2,000/month (estimated)

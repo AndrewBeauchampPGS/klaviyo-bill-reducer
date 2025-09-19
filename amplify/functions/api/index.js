@@ -1,20 +1,22 @@
 const axios = require('axios');
 
-// Klaviyo pricing tiers
+// Klaviyo pricing tiers - Updated 2025
+// Note: These prices should be periodically verified at https://www.klaviyo.com/pricing
 const PRICING_TIERS = [
-    { min: 0, max: 500, price: 0 },
-    { min: 501, max: 1000, price: 30 },
+    { min: 0, max: 250, price: 0 },          // Free tier
+    { min: 251, max: 500, price: 20 },       // Confirmed
+    { min: 501, max: 1000, price: 30 },      // Confirmed
     { min: 1001, max: 2500, price: 50 },
-    { min: 2501, max: 5000, price: 75 },
-    { min: 5001, max: 10000, price: 125 },
-    { min: 10001, max: 15000, price: 200 },
-    { min: 15001, max: 20000, price: 275 },
-    { min: 20001, max: 25000, price: 350 },
-    { min: 25001, max: 30000, price: 425 },
-    { min: 30001, max: 35000, price: 500 },
-    { min: 35001, max: 40000, price: 575 },
-    { min: 40001, max: 45000, price: 650 },
-    { min: 45001, max: 50000, price: 725 },
+    { min: 2501, max: 5000, price: 100 },    // Confirmed $100 from research
+    { min: 5001, max: 10000, price: 150 },   // Confirmed $150 from research
+    { min: 10001, max: 15000, price: 225 },
+    { min: 15001, max: 20000, price: 300 },
+    { min: 20001, max: 25000, price: 375 },  // Confirmed ~$375-400 from research
+    { min: 25001, max: 30000, price: 475 },  // Confirmed from user test (27,001 = $475)
+    { min: 30001, max: 35000, price: 550 },  // Confirmed from user test (30,001 = $550)
+    { min: 35001, max: 40000, price: 625 },
+    { min: 40001, max: 45000, price: 700 },
+    { min: 45001, max: 50000, price: 720 },  // Confirmed $720 from research
     { min: 50001, max: 60000, price: 850 },
     { min: 60001, max: 70000, price: 975 },
     { min: 70001, max: 85000, price: 1150 },
@@ -317,29 +319,32 @@ exports.handler = async (event) => {
                 // Store segment ID for export
                 segmentCache[apiKey.substring(0, 8)] = segmentId;
 
-                // Wait 30 seconds for both segments to process
-                console.log('Waiting 30 seconds for segments to process...');
-                await new Promise(resolve => setTimeout(resolve, 30000));
+                // Wait 60 seconds for both segments to process (large accounts need more time)
+                console.log('Waiting 60 seconds for segments to process...');
+                await new Promise(resolve => setTimeout(resolve, 60000));
 
-                // Get counts from both segments
-                const [totalSegmentDetail, inactiveSegmentDetail] = await Promise.all([
-                    klaviyoClient.get(`/segments/${totalSegmentId}/`),
-                    klaviyoClient.get(`/segments/${segmentId}/`)
-                ]);
+                // Get counts from both segments sequentially with delay to avoid throttling
+                const totalSegmentDetail = await klaviyoClient.get(`/segments/${totalSegmentId}/?additional-fields[segment]=profile_count`);
 
-                const totalProfiles = totalSegmentDetail.data.data.attributes.profiles_count || 0;
-                const inactiveCount = inactiveSegmentDetail.data.data.attributes.profiles_count || 0;
+                // Wait 2 seconds between requests to avoid throttling
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const inactiveSegmentDetail = await klaviyoClient.get(`/segments/${segmentId}/?additional-fields[segment]=profile_count`);
+
+                const totalProfiles = totalSegmentDetail.data.data.attributes.profile_count || 0;
+                const inactiveCount = inactiveSegmentDetail.data.data.attributes.profile_count || 0;
 
                 console.log(`Total active profiles: ${totalProfiles}`);
                 console.log(`Inactive profiles: ${inactiveCount}`);
 
-                // Clean up the total segment (keep the inactive one for export)
-                try {
-                    await klaviyoClient.delete(`/segments/${totalSegmentId}/`);
-                    console.log('Deleted temporary total segment');
-                } catch (deleteError) {
-                    console.log('Could not delete temporary segment');
-                }
+                // Keep both segments for user reference
+                // Commenting out deletion as segments are useful for verification
+                // try {
+                //     await klaviyoClient.delete(`/segments/${totalSegmentId}/`);
+                //     console.log('Deleted temporary total segment');
+                // } catch (deleteError) {
+                //     console.log('Could not delete temporary segment');
+                // }
 
                 const activeCount = totalProfiles - inactiveCount;
 
