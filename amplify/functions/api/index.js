@@ -118,14 +118,12 @@ const segmentCache = {};
 
 // Lambda handler
 exports.handler = async (event) => {
+    // CORS is handled by Lambda Function URL configuration
     const headers = {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type,X-Api-Key',
-        'Access-Control-Allow-Methods': 'POST,OPTIONS,GET'
+        'Content-Type': 'application/json'
     };
 
-    // Handle CORS preflight
+    // Handle CORS preflight (Function URL handles this automatically)
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
@@ -240,11 +238,7 @@ exports.handler = async (event) => {
             // Step 2: Create both segments simultaneously
             console.log('Creating segments...');
 
-            // Prepare the date filters
-            const cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - daysInactive);
-            const dateString = cutoffDate.toISOString();
-            const allTimeDate = '2015-01-01T00:00:00.000Z';
+            // Using rolling dates for auto-updating segments
 
             // Total profiles segment payload
             const totalSegmentPayload = {
@@ -310,8 +304,9 @@ exports.handler = async (event) => {
                                             },
                                             timeframe_filter: {
                                                 type: 'date',
-                                                operator: 'after',
-                                                date: dateString
+                                                operator: 'in-the-last',
+                                                unit: 'day',
+                                                quantity: daysInactive
                                             }
                                         }
                                     ]
@@ -329,8 +324,9 @@ exports.handler = async (event) => {
                                             },
                                             timeframe_filter: {
                                                 type: 'date',
-                                                operator: 'after',
-                                                date: dateString
+                                                operator: 'in-the-last',
+                                                unit: 'day',
+                                                quantity: daysInactive
                                             }
                                         }
                                     ]
@@ -348,8 +344,7 @@ exports.handler = async (event) => {
                                             },
                                             timeframe_filter: {
                                                 type: 'date',
-                                                operator: 'after',
-                                                date: allTimeDate
+                                                operator: 'alltime'
                                             }
                                         }
                                     ]
@@ -367,8 +362,9 @@ exports.handler = async (event) => {
                                             },
                                             timeframe_filter: {
                                                 type: 'date',
-                                                operator: 'after',
-                                                date: dateString
+                                                operator: 'in-the-last',
+                                                unit: 'day',
+                                                quantity: daysInactive
                                             }
                                         }
                                     ]
