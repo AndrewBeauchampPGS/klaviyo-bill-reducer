@@ -370,20 +370,42 @@
         /* Footer Styles */
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 48px 30px;
             color: white;
-            font-size: 14px;
         }
 
-        .footer a {
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-credit {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .footer-credit a {
             color: white;
             text-decoration: none;
             font-weight: 600;
-            transition: opacity 0.3s;
         }
 
-        .footer a:hover {
-            opacity: 0.8;
+        .footer-credit a:hover {
             text-decoration: underline;
         }
 
@@ -785,13 +807,15 @@
 
     <!-- Footer -->
     <div class="footer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <p>
-            <a href="https://bsandco.us/tools">View All Tools</a> |
-            <a href="https://klaviyo-audience-builder.bsandco.us/">Audience Builder</a> |
-            <a href="https://klaviyo-flow-builder.bsandco.us/">Flow Builder</a> |
+        <div class="footer-links">
+            <a href="https://bsandco.us/tools">View All Tools</a>
+            <a href="https://klaviyo-audience-builder.bsandco.us/">Audience Builder</a>
+            <a href="https://klaviyo-flow-builder.bsandco.us/">Flow Builder</a>
             <a href="https://klaviyo-list-splitter.bsandco.us/">List Splitter</a>
-        </p>
-        <p style="margin-top: 10px; opacity: 0.8;">Free Klaviyo Tools by <a href="https://bsandco.us/">BS&Co</a></p>
+        </div>
+        <div class="footer-credit">
+            Free Klaviyo Tools by <a href="https://bsandco.us/">BS&Co</a>
+        </div>
     </div>
 
     <script>
