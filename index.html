@@ -389,25 +389,26 @@
 
         /* Navigation Header */
         .nav-header {
-            background: white;
-            padding: 16px 30px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 0;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
+            padding: 0 30px;
         }
 
         .breadcrumb-item {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
         }
 
         .breadcrumb a {
-            color: #9ca3af;
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             transition: color 0.2s;
             display: flex;
@@ -415,25 +416,25 @@
         }
 
         .breadcrumb a:hover {
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .breadcrumb-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: #6b7280;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .breadcrumb-icon {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
         }
 
         .chevron-icon {
-            width: 20px;
-            height: 20px;
-            color: #9ca3af;
+            width: 16px;
+            height: 16px;
+            color: rgba(255, 255, 255, 0.5);
             flex-shrink: 0;
         }
 
@@ -552,33 +553,33 @@
     </style>
 </head>
 <body>
-    <!-- Navigation Header -->
-    <div class="nav-header">
-        <nav aria-label="Breadcrumb" class="breadcrumb">
-            <a href="https://bsandco.us">
-                <svg class="breadcrumb-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
-                </svg>
-                <span class="sr-only">Home</span>
-            </a>
-            <div class="breadcrumb-item">
-                <svg class="chevron-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                <a href="https://bsandco.us/tools" class="breadcrumb-text">Tools</a>
-            </div>
-            <div class="breadcrumb-item">
-                <svg class="chevron-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-                <span class="breadcrumb-text" aria-current="page">Bill Reducer</span>
-            </div>
-        </nav>
-    </div>
-
     <div class="container">
         <!-- Hero Section -->
         <header style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <!-- Navigation Header -->
+            <div class="nav-header">
+                <nav aria-label="Breadcrumb" class="breadcrumb">
+                    <a href="https://bsandco.us">
+                        <svg class="breadcrumb-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Home</span>
+                    </a>
+                    <div class="breadcrumb-item">
+                        <svg class="chevron-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
+                        <a href="https://bsandco.us/tools" class="breadcrumb-text">Tools</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <svg class="chevron-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="breadcrumb-text" aria-current="page">Bill Reducer</span>
+                    </div>
+                </nav>
+            </div>
+
             <div class="hero">
                 <h1>Reduce Your Klaviyo Bill by 20-30% in Minutes</h1>
                 <p class="subtitle">Identify and Remove Inactive Email Profiles Instantly</p>
