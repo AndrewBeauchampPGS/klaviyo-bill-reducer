@@ -696,43 +696,8 @@
                     <button class="btn btn-secondary" onclick="location.reload()">🔄 Start New Analysis</button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Email Capture Modal -->
-    <div class="modal-overlay" id="emailModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
-                </div>
-                <h2>One Quick Step!</h2>
-                <p>Enter your email to see your Klaviyo savings analysis</p>
-            </div>
-
-            <form id="emailForm" onsubmit="submitEmail(event)">
-                <input type="email" id="userEmail" placeholder="you@company.com" required autofocus>
-                <div class="error" id="emailError"></div>
-
-                <div class="privacy-note">
-                    <strong>Privacy Promise:</strong> We'll only use your email to notify you of your analysis results. No spam, ever.
-                </div>
-
-                <button type="submit" class="btn" style="width: 100%;">
-                    Get Analysis Results
-                </button>
-
-                <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #6c757d;">
-                    You'll only need to do this once
-                </p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Educational Content -->
-    <div class="container">
+        <!-- Educational Content -->
         <div class="educational-content">
             <h2>How to Use the Klaviyo Bill Reducer</h2>
             <p>This tool helps you identify and remove inactive profiles from your Klaviyo account, which can significantly reduce your monthly email marketing costs. Here's how it works:</p>
@@ -802,6 +767,39 @@
                     <p>Split large customer lists into smaller segments for targeted campaigns</p>
                 </div>
             </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Email Capture Modal -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </div>
+                <h2>One Quick Step!</h2>
+                <p>Enter your email to see your Klaviyo savings analysis</p>
+            </div>
+
+            <form id="emailForm" onsubmit="submitEmail(event)">
+                <input type="email" id="userEmail" placeholder="you@company.com" required autofocus>
+                <div class="error" id="emailError"></div>
+
+                <div class="privacy-note">
+                    <strong>Privacy Promise:</strong> We'll only use your email to notify you of your analysis results. No spam, ever.
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%;">
+                    Get Analysis Results
+                </button>
+
+                <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #6c757d;">
+                    You'll only need to do this once
+                </p>
+            </form>
         </div>
     </div>
 
